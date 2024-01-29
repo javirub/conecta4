@@ -26,5 +26,5 @@ class GameLogic:
         pass
 
     def resetear_contador(self):
-        # Lógica para resetear el contador de victorias y derrotas
-        pass
+        self.num_partidas_rojas = 0
+        self.num_partidas_amarillas = 0

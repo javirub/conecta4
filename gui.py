@@ -1,4 +1,4 @@
-from tkinter import Canvas, Button
+from tkinter import Canvas, Button, Label
 
 class GameGUI:
     def __init__(self, root, game_logic):
@@ -14,7 +14,6 @@ class GameGUI:
 
         #Tamaño de cada celda en el tablero
         cell_size = 100
-
 
         for i in range(7):
             button = Button(self.root, text=f'Columna {i+1}', command = lambda i=i: self.game_logic.clic_en_columna(i))
@@ -36,4 +35,9 @@ class GameGUI:
         reset_scores_button = Button(self.root, text = 'Resetear contador', command = self.game_logic.resetear_contador)
         reset_scores_button.grid(row = 2, column = 4, columnspan = 3)
 
+        #Etiquetas para mostrar contadores de partidas
+        self.label_rojas = Label(self.root, text =f'Rojas: {self.game_logic.num_partidas_rojas}')
+        self.label_rojas.grid(row = 3, column = 0, columnspan = 3)
 
+        self.label_amarillas = Label(self.root, text =f'Amarillas: {self.game_logic.num_partidas_amarillas}')
+        self.label_amarillas.grid(row = 3, column = 4, columnspan = 3)
