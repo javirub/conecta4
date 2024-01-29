@@ -5,17 +5,18 @@ class GameLogic:
         self.num_partidas_rojas = 0
         self.num_partidas_amarillas = 0
 
-    def clic_en_columna(self, columna):
-        self.game_logic.colocar_ficha(columna)
-        self.actualizar_tablero()
+
 
     def colocar_ficha(self, columna):
         # Lógica para colocar una ficha en la columna seleccionada
-        pass
-
-    def actualizar_tablero(self):
-        # Lógica para actualizar la representación gráfica del tablero
-        pass
+        for fila in range(5, -1, -1):
+            if self.tablero[fila][columna] == 0:
+                if self.turno_rojas:
+                    self.tablero[fila][columna] = 1
+                else:
+                    self.tablero[fila][columna] = 2
+                return fila #Devuelve la fila en la que se colocó la ficha
+        return -1 #Devuelve -1 si la columna está llena
 
     def verificar_ganador(self):
         # Lógica para verificar si hay un ganador
@@ -28,3 +29,8 @@ class GameLogic:
     def resetear_contador(self):
         self.num_partidas_rojas = 0
         self.num_partidas_amarillas = 0
+
+    def get_ultima_fila(self, columna):
+        if self.tablero[fila][columna] == 0:
+            return fila
+        return None
