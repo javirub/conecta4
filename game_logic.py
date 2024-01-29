@@ -13,9 +13,12 @@ class GameLogic:
             if self.tablero[fila][columna] == 0:
                 if self.turno_rojas:
                     self.tablero[fila][columna] = 1
+                    self.turno_rojas = False # Cambia el turno para que el siguiente jugador sea el amarillo
                 else:
                     self.tablero[fila][columna] = 2
+                    self.turno_rojas = True # Cambia el turno para que el siguiente jugador sea el rojo
                 return fila #Devuelve la fila en la que se colocó la ficha
+
         return -1 #Devuelve -1 si la columna está llena
 
     def verificar_ganador(self):

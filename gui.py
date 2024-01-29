@@ -45,10 +45,10 @@ class GameGUI:
         self.label_amarillas.grid(row = 3, column = 4, columnspan = 3)
 
     def clic_en_columna(self, columna):
-        fila = self.game_logic.colocar_ficha(columna)
+        fila = self.game_logic.colocar_ficha(columna) # Actualiza la matriz con las posiciones de las fichas
 
         if fila != -1:
-            self.animar_ficha(columna, fila)
+            self.animar_ficha(columna, fila) # Llama a la animación por la que caen las fichas por el tablero
 
 
     def animar_ficha(self, columna, fila):
@@ -58,7 +58,7 @@ class GameGUI:
         x1 = x0 + 100
         y1 = y0 + 100
 
-        if self.game_logic.turno_rojas:
+        if self.game_logic.tablero[fila][columna] == 1:
             jugador_actual = 'red'
         else:
             jugador_actual = 'yellow'
