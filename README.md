@@ -34,3 +34,5 @@ Las contribuciones son bienvenidas. Si encuentras algún bug o tienes ideas para
 ## Licencia
 
 Este proyecto se encuentra bajo la licencia [MIT](LICENSE).
+
+![Ejemplo del juego](ejemplo_juego.png)
