@@ -6,6 +6,8 @@ class GameGUI:
         self.game_logic = GameLogic(self)
         self.create_gui()
         self.create_popup()
+        self.canvas.bind("<Button-1>", self.clic_en_canvas)
+        self.tablero_bloqueado = False
 
     def create_gui(self):
         self.root.title("Conecta 4")
@@ -17,9 +19,9 @@ class GameGUI:
         cell_size = 100
 
         #Añadimos los botones que los jugadores clicaran para añadir la ficha:
-        for i in range(7):
-            button = Button(self.root, text=f'Columna {i+1}', command = lambda i=i: self.clic_en_columna(i))
-            button.grid(row = 1, column = i)
+        #for i in range(7):
+        #    button = Button(self.root, text=f'Columna {i+1}', command = lambda i=i: self.clic_en_columna(i))
+        #    button.grid(row = 1, column = i)
 
         #Dibujamos un borde alrededor de cada celda
         for row in range(6):
@@ -55,12 +57,15 @@ class GameGUI:
         self.popup_window.protocol("WM_DELETE_WINDOW", self.ocultar_popup)
         self.popup_window.withdraw()  # Oculta la ventana emergente inicialmente
 
-    def clic_en_columna(self, columna):
-        fila = self.game_logic.colocar_ficha(columna) # Actualiza la matriz con las posiciones de las fichas
-
-        if fila != -1:
-            self.bloquear_tablero()
-            self.animar_ficha(columna, fila, lambda: self.verificar_y_actualizar(columna,fila)) # Llama a la animación por la que caen las fichas por el tablero
+    def clic_en_canvas(self, event):
+        # Este manejador se llama cuando hacen clic en el lienzo
+        # Calcula la columna correspondiente según la posición del clic
+        if not self.tablero_bloqueado:
+            columna = event.x // 100
+            fila = self.game_logic.colocar_ficha(columna)  # Actualiza la matriz con las posiciones de las fichas
+            if fila != -1:
+                self.bloquear_tablero()
+                self.animar_ficha(columna, fila, lambda: self.verificar_y_actualizar(columna,fila)) # Llama a la animación por la que caen las fichas por el tablero
 
 
     def animar_ficha(self, columna, fila, callback):
@@ -116,12 +121,8 @@ class GameGUI:
     def ocultar_popup(self):
         self.popup_window.withdraw()
 
-    def bloquear_tablero(self):
-        for i in range(7):
-            button = self.root.grid_slaves(row=1, column=i)[0]
-            button.config(state="disabled")
-
     def desbloquear_tablero(self):
-        for i in range(7):
-            button = self.root.grid_slaves(row=1, column=i)[0]
-            button.config(state="normal")
+        self.tablero_bloqueado = False
+
+    def bloquear_tablero(self):
+        self.tablero_bloqueado = True
