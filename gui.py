@@ -59,6 +59,7 @@ class GameGUI:
         fila = self.game_logic.colocar_ficha(columna) # Actualiza la matriz con las posiciones de las fichas
 
         if fila != -1:
+            self.bloquear_tablero()
             self.animar_ficha(columna, fila, lambda: self.verificar_y_actualizar(columna,fila)) # Llama a la animación por la que caen las fichas por el tablero
 
 
@@ -85,7 +86,9 @@ class GameGUI:
             if y1 < (fila + 1) * 100:
                 self.root.after(10, animacion, frame + 1)
             else:
+                self.desbloquear_tablero()
                 callback() # Llama a verificar_ganador después de la animación
+
 
         animacion(0)
 
