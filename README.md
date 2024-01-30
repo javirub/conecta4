@@ -28,7 +28,7 @@ El proyecto consiste en una implementación del juego Conecta 4 en Python. A con
 
 ## Uso del Proyecto
 
-Para jugar, ejecuta el código, debes clicar en la columna en la que quieres colocar la ficha, 
+Para jugar, ejecuta el código, debes clicar en la columna en la que quieres colocar la ficha, los turnos de jugadores se van alternando.
 
 ## Contribuciones
 
