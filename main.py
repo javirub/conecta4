@@ -6,8 +6,7 @@ from gui import GameGUI
 
 if __name__ == "__main__":
     root = Tk()
-    game_logic = GameLogic()
-    game_gui = GameGUI(root, game_logic)
+    game_gui = GameGUI(root)
+    game_logic = GameLogic(game_gui)
     root.mainloop()
-
 

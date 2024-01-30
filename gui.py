@@ -1,10 +1,11 @@
-from tkinter import Canvas, Button, Label
-
+from tkinter import Canvas, Button, Label, Toplevel
+from game_logic import GameLogic
 class GameGUI:
-    def __init__(self, root, game_logic):
+    def __init__(self, root):
         self.root = root
-        self.game_logic = game_logic
+        self.game_logic = GameLogic(self)
         self.create_gui()
+        self.create_popup()
 
     def create_gui(self):
         self.root.title("Conecta 4")
@@ -38,20 +39,30 @@ class GameGUI:
         reset_scores_button.grid(row = 2, column = 4, columnspan = 3)
 
         #Etiquetas para mostrar contadores de partidas
-        self.label_rojas = Label(self.root, text =f'Rojas: {self.game_logic.num_partidas_rojas}')
+        self.label_rojas = Label(self.root, textvariable = self.game_logic.num_partidas_rojas)
         self.label_rojas.grid(row = 3, column = 0, columnspan = 3)
 
-        self.label_amarillas = Label(self.root, text =f'Amarillas: {self.game_logic.num_partidas_amarillas}')
+        self.label_amarillas = Label(self.root, textvariable = self.game_logic.num_partidas_amarillas)
         self.label_amarillas.grid(row = 3, column = 4, columnspan = 3)
+
+    def create_popup(self):
+        self.popup_window = Toplevel(self.root)
+        self.popup_window.title("¡Ganador!")
+        self.popup_label = Label(self.popup_window, text="", font=("Arial", 16))
+        self.popup_label.pack(pady=20)
+        self.popup_button = Button(self.popup_window, text="Aceptar", command=self.ocultar_popup)
+        self.popup_button.pack(pady=10)
+        self.popup_window.protocol("WM_DELETE_WINDOW", self.ocultar_popup)
+        self.popup_window.withdraw()  # Oculta la ventana emergente inicialmente
 
     def clic_en_columna(self, columna):
         fila = self.game_logic.colocar_ficha(columna) # Actualiza la matriz con las posiciones de las fichas
 
         if fila != -1:
-            self.animar_ficha(columna, fila) # Llama a la animación por la que caen las fichas por el tablero
+            self.animar_ficha(columna, fila, lambda: self.verificar_y_actualizar(columna,fila)) # Llama a la animación por la que caen las fichas por el tablero
 
 
-    def animar_ficha(self, columna, fila):
+    def animar_ficha(self, columna, fila, callback):
         #Obtiene coordenadas iniciales y finales de la ficha a colocar
         x0 = columna * 100 #100 = tamaño de celda en pixeles
         y0 = 0
@@ -73,5 +84,36 @@ class GameGUI:
             self.canvas.coords(ficha_id, x0, y0, x1, y1)  # Actualiza las coordenadas del óvalo
             if y1 < (fila + 1) * 100:
                 self.root.after(10, animacion, frame + 1)
+            else:
+                callback() # Llama a verificar_ganador después de la animación
 
         animacion(0)
+
+    def borrar_fichas(self):
+        self.canvas.delete('ficha')
+
+    def verificar_y_actualizar(self, columna, fila):
+        ganador = self.game_logic.verificar_ganador(columna, fila)
+        if ganador:
+            jugador_actual = 'Rojo' if ganador == 1 else 'Amarillo'
+            self.mostrar_popup(f'Ganador: Jugador {jugador_actual.capitalize()}')
+        else:
+            self.label_rojas.config(text='')
+            self.label_amarillas.config(text='')
+    def mostrar_popup(self, mensaje):
+        self.popup_label.config(text = mensaje)
+        self.popup_window.geometry('300x150+500+200')
+        self.popup_window.deiconify()
+
+    def ocultar_popup(self):
+        self.popup_window.withdraw()
+
+    def bloquear_tablero(self):
+        for i in range(7):
+            button = self.root.grid_slaves(row=1, column=i)[0]
+            button.config(state="disabled")
+
+    def desbloquear_tablero(self):
+        for i in range(7):
+            button = self.root.grid_slaves(row=1, column=i)[0]
+            button.config(state="normal")
