@@ -54,34 +54,34 @@ class GameGUI:
         self.label_amarillas.grid(row=3, column=5, columnspan=1)
 
     def raton_en_columna(self, fila, columna):
-        color_jugador_actual = 'white'
         if not self.tablero_bloqueado:
             if self.game_logic.turno_rojas:
                 color_jugador_actual = 'red'
             else:
                 color_jugador_actual = 'yellow'
-        if self.columna_actual is None or columna != self.columna_actual:
-            x0 = columna * 100
-            y0 = -50
-            x1 = x0 + 100
-            y1 = 50  # Altura para la media ficha
 
-            if self.media_ficha_id is not None:
-                self.canvas.delete(self.media_ficha_id)
+            if self.columna_actual is None or columna != self.columna_actual:
+                x0 = columna * 100
+                y0 = -50
+                x1 = x0 + 100
+                y1 = 50  # Altura para la media ficha
 
-            self.media_ficha_id = self.canvas.create_arc(x0, y0, x1, y1, start=180, extent=180,
-                                                         fill=color_jugador_actual,
-                                                         tags=f'cell{fila}_{columna}_media_ficha',
-                                                         outline='black')
+                if self.media_ficha_id is not None:
+                    self.canvas.delete(self.media_ficha_id)
 
-        self.columna_actual = columna
+                self.media_ficha_id = self.canvas.create_arc(x0, y0, x1, y1, start=180, extent=180,
+                                                             fill=color_jugador_actual,
+                                                             tags=f'cell{fila}_{columna}_media_ficha',
+                                                             outline='black')
+
+            self.columna_actual = columna
 
     def raton_abandona_columna(self, fila, columna):
         if not self.tablero_bloqueado:
             if self.columna_actual is None or columna != self.columna_actual:
                 self.canvas.delete(self.media_ficha_id)
 
-        self.columna_actual = columna
+            self.columna_actual = columna
     def create_popup(self):
         self.popup_window = Toplevel(self.root)
         self.popup_window.title("¡Ganador!")
@@ -100,8 +100,10 @@ class GameGUI:
             fila = self.game_logic.colocar_ficha(columna)  # Actualiza la matriz con las posiciones de las fichas
             if fila != -1:
                 self.bloquear_tablero()
+                self.actualizar_media_ficha(columna, fila)
                 self.animar_ficha(columna, fila, lambda: self.verificar_y_actualizar(columna,
                                                                                      fila))
+
                 # Llama a la animación por la que caen las fichas por el tablero
 
     def animar_ficha(self, columna, fila, callback):
@@ -133,6 +135,25 @@ class GameGUI:
 
         animacion(0)
 
+    def actualizar_media_ficha(self, columna, fila):
+        if self.media_ficha_id is not None:
+            self.canvas.delete(self.media_ficha_id)
+
+        if self.game_logic.turno_rojas:
+            color_jugador_actual = 'red'
+        else:
+            color_jugador_actual = 'yellow'
+
+        x0 = columna * 100
+        y0 = -50
+        x1 = x0 + 100
+        y1 = 50  # Altura para la media ficha
+
+        self.media_ficha_id = self.canvas.create_arc(x0, y0, x1, y1, start=180, extent=180,
+                                                     fill=color_jugador_actual,
+                                                     tags=f'cell{fila}_{columna}_media_ficha',
+                                                     outline='black')
+
     def borrar_fichas(self):
         self.canvas.delete('ficha')
 
@@ -159,6 +180,7 @@ class GameGUI:
 
     def desbloquear_tablero(self):
         self.tablero_bloqueado = False
+
 
     def bloquear_tablero(self):
         self.tablero_bloqueado = True
