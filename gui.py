@@ -84,7 +84,7 @@ class GameGUI:
             y1 += 5
             self.canvas.coords(ficha_id, x0, y0, x1, y1)  # Actualiza las coordenadas del óvalo
             if y1 < (fila + 1) * 100:
-                self.root.after(10, animacion, frame + 1)
+                self.root.after(2, animacion, frame + 1)
             else:
                 self.desbloquear_tablero()
                 callback() # Llama a verificar_ganador después de la animación
