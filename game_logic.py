@@ -29,9 +29,9 @@ class GameLogic:
         #Verificar horizontalmente, verticalmente, en diagonal hacia arriba y en diagonal hacia abajo
         if (
             self.verificar_linea(columna, fila, 1, 0, jugador_actual) or
-            self.verificar_linea(columna, fila, 1, 0, jugador_actual) or
-            self.verificar_linea(columna, fila, 1, 0, jugador_actual) or
-            self.verificar_linea(columna, fila, 1, 0, jugador_actual)
+            self.verificar_linea(columna, fila, 0, 1, jugador_actual) or
+            self.verificar_linea(columna, fila, 1, -1, jugador_actual) or
+            self.verificar_linea(columna, fila, 1, 1, jugador_actual)
         ):
 
             if jugador_actual ==1:
