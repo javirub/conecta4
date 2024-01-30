@@ -22,6 +22,7 @@ El proyecto consiste en una implementación del juego Conecta 4 en Python. A con
 2. Mejora de la representación gráfica.
 3. Añadir funcionalidades extra como modificar el tamaño del tablero.
 4. Incorporación a una web bajo el framework Django.
+5. Incorporación de multijugador online 
 
 ## Uso del Proyecto
 
