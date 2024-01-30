@@ -19,8 +19,8 @@ El proyecto consiste en una implementación del juego Conecta 4 en Python. A con
 ### Roadmap
 
 1. Corrección de bugs:
-   - 1.1 En ocasiones se suma la puntuación del jugador al ganar más de una vez.
-   - 1.2 Si todavía no ha llegado la ficha a su posición, aunque sea la ficha ganadora, permite seguir jugando por lo que puede haber doble ganador.
+   - En ocasiones se suma la puntuación del jugador al ganar más de una vez.
+   - Si todavía no ha llegado la ficha a su posición, aunque sea la ficha ganadora, permite seguir jugando por lo que puede haber doble ganador.
 3. Mejora de la representación gráfica.
 4. Añadir funcionalidades extra como modificar el tamaño del tablero.
 5. Incorporación a una web bajo el framework Django.
