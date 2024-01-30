@@ -93,13 +93,18 @@ class GameGUI:
         self.canvas.delete('ficha')
 
     def verificar_y_actualizar(self, columna, fila):
-        ganador = self.game_logic.verificar_ganador(columna, fila)
-        if ganador:
-            jugador_actual = 'Rojo' if ganador == 1 else 'Amarillo'
-            self.mostrar_popup(f'Ganador: Jugador {jugador_actual.capitalize()}')
-        else:
+        if columna == -1 and fila == -1:
             self.label_rojas.config(text='')
             self.label_amarillas.config(text='')
+        else:
+            ganador = self.game_logic.verificar_ganador(columna, fila)
+            if ganador:
+                jugador_actual = 'Rojo' if ganador == 1 else 'Amarillo'
+                self.mostrar_popup(f'Ganador: Jugador {jugador_actual.capitalize()}')
+            else:
+                self.label_rojas.config(text='')
+                self.label_amarillas.config(text='')
+
     def mostrar_popup(self, mensaje):
         self.popup_label.config(text = mensaje)
         self.popup_window.geometry('300x150+500+200')
